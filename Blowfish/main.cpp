@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cstring>
 #include <string>
 #include <random>
 #include "Blowfish.h"
@@ -14,7 +15,7 @@ int main()
 
 	Blowfish fish(key);
 	char input[8];
-	strcpy_s(input, "1234567");
+	strcpy(input, "1234567");
 	fish.encrypt(input, 8);
 	fish.decrypt(input, 8);
 	cout << input;
