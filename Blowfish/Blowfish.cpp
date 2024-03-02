@@ -53,15 +53,15 @@ Blowfish::Blowfish(char const* key, size_t keyLen)
 			sBox[i][j] = l;
 			sBox[i][++j] = r;
 		}
-
-	uint32_t blocks[] = { 7895160, 0 };
-	encryptBlock(blocks[0], blocks[1]);
-	decryptBlock(blocks[0], blocks[1]);
 }
 
 void Blowfish::encrypt(char* data, size_t dataLen)
 {
+	#ifdef _MSC_VER
 	assert(dataLen % 8 == 0, "Data length must be a multiple of 8 bytes");
+	#else
+	assert(dataLen % 8 == 0);
+	#endif
 	size_t blocksCount = dataLen / 8;
 	uint32_t* blocks = reinterpret_cast<uint32_t*>(data);
 	for (size_t i = 0; i < blocksCount; i++)
@@ -70,7 +70,11 @@ void Blowfish::encrypt(char* data, size_t dataLen)
 
 void Blowfish::decrypt(char* data, size_t dataLen)
 {
+	#ifdef _MSC_VER
 	assert(dataLen % 8 == 0, "Data length must be a multiple of 8 bytes");
+	#else
+	assert(dataLen % 8 == 0);
+	#endif
 	size_t blocksCount = dataLen / 8;
 	uint32_t* blocks = reinterpret_cast<uint32_t*>(data);
 	for (size_t i = 0; i < blocksCount; i++)
