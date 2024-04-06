@@ -23,15 +23,15 @@ void Blowfish::encryptBlock(uint32_t& left, uint32_t& right)
 
 void Blowfish::decryptBlock(uint32_t& left, uint32_t& right)
 {
-	left ^= p[17];
-	right ^= p[16];
-	for (int i = 15; i >= 0; --i)
+	for (int i = 17; i > 1; --i)
 	{
-		right ^= F(left);
 		left ^= p[i];
+		right ^= F(left);
 		std::swap(left, right);
 	}
 	std::swap(left, right);
+	left ^= p[0];
+	right ^= p[1];
 }
 
 Blowfish::Blowfish(char const* key, size_t keyLen)
