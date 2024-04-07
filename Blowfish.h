@@ -289,7 +289,7 @@ private:
     void decryptBlock(uint32_t& left, uint32_t& right);
 
 public:
-    Blowfish(unsigned char const* key, size_t keyLen = 448);
+    Blowfish(unsigned char const* key, size_t keyLen);
     void encrypt(unsigned char* data, size_t dataLen);
     void decrypt(unsigned char* data, size_t dataLen);
 };
