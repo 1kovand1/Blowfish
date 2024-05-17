@@ -292,5 +292,6 @@ public:
     Blowfish(unsigned char const* key, size_t keyLen);
     void encrypt(unsigned char* data, size_t dataLen);
     void decrypt(unsigned char* data, size_t dataLen);
+    static uint64_t hash(uint8_t const* buf, size_t size);
 };
 
