@@ -1,31 +1,13 @@
-#pragma once
-#include <cstdint>
-#include <cstddef>
+#include "initValues.h"
 
-class Blowfish
-{
-private:
-    struct wordBytes
-    {
-#ifdef BIG_ENDIAN
-        unsigned char zero, first, second, third;
-#else
-        unsigned char third, second, first, zero;
-#endif // BIG_ENDIAN
-        
-    };
-    union word
-    {
-        uint32_t num;
-        wordBytes bytes;
-    };
-    uint32_t p[18] = {
+const extern uint32_t BLOWFISHINITP[] = {
     0x243F6A88, 0x85A308D3, 0x13198A2E, 0x03707344,
     0xA4093822, 0x299F31D0, 0x082EFA98, 0xEC4E6C89,
     0x452821E6, 0x38D01377, 0xBE5466CF, 0x34E90C6C,
     0xC0AC29B7, 0xC97C50DD, 0x3F84D5B5, 0xB5470917,
     0x9216D5D9, 0x8979FB1B };
-    uint32_t sBox[4][256] = { 
+
+const extern uint32_t BLOWFISHINITSBOX[4][256] = {
         0xd1310ba6, 0x98dfb5ac, 0x2ffd72db, 0xd01adfb7,
         0xb8e1afed, 0x6a267e96, 0xba7c9045, 0xf12c7f99,
         0x24a19947, 0xb3916cf7, 0x0801f2e2, 0x858efc16,
@@ -282,16 +264,4 @@ private:
         0x1948c25c, 0x02fb8a8c, 0x01c36ae4, 0xd6ebe1f9,
         0x90d4f869, 0xa65cdea0, 0x3f09252d, 0xc208e69f,
         0xb74e6132, 0xce77e25b, 0x578fdfe3, 0x3ac372e6
-    };
-
-    uint32_t F(uint32_t in);
-    void encryptBlock(uint32_t& left, uint32_t& right);
-    void decryptBlock(uint32_t& left, uint32_t& right);
-
-public:
-    Blowfish(unsigned char const* key, size_t keyLen);
-    void encrypt(unsigned char* data, size_t dataLen);
-    void decrypt(unsigned char* data, size_t dataLen);
-    static uint64_t hash(uint8_t const* buf, size_t size);
 };
-

@@ -1,6 +1,10 @@
 ﻿#include "Blowfish.h"
 #include <algorithm>
 #include <cassert>
+#include <cstring>
+#include "initValues.h"
+
+using namespace std;
 
 static uint64_t fromBytes64(unsigned char const* bytes)
 {
@@ -30,14 +34,14 @@ static void toBytes(uint32_t num, unsigned char* bytes)
 	}
 }
 
-uint32_t Blowfish::F(uint32_t in)
+uint32_t Blowfish::F(uint32_t in) const
 {
 	unsigned char bytes[4];
 	toBytes(in, bytes);
 	return (sBox[0][bytes[0]] + sBox[1][bytes[1]] ^ sBox[2][bytes[2]]) + sBox[3][bytes[3]];
 }
 
-void Blowfish::encryptBlock(uint32_t& left, uint32_t& right)
+void Blowfish::encryptBlock(uint32_t& left, uint32_t& right) const
 {
 	for (int i = 0; i < 15; ++i)
 	{
@@ -52,7 +56,7 @@ void Blowfish::encryptBlock(uint32_t& left, uint32_t& right)
 	right ^= p[16];
 }
 
-void Blowfish::decryptBlock(uint32_t& left, uint32_t& right)
+void Blowfish::decryptBlock(uint32_t& left, uint32_t& right) const
 {
 	for (int i = 17; i > 2; --i)
 	{
@@ -69,6 +73,8 @@ void Blowfish::decryptBlock(uint32_t& left, uint32_t& right)
 
 Blowfish::Blowfish(unsigned char const* key, size_t keyLen)
 {
+	memcpy(this->p, BLOWFISHINITP, sizeof(BLOWFISHINITP));
+	memcpy(this->sBox, BLOWFISHINITSBOX, sizeof(BLOWFISHINITSBOX));
 	keyLen /= 8;
 	for (int i = 0; i < 18; ++i)
 		p[i] ^= fromBytes(key + (4 * i) % keyLen);
@@ -88,7 +94,7 @@ Blowfish::Blowfish(unsigned char const* key, size_t keyLen)
 		}
 }
 
-void Blowfish::encrypt(unsigned char* data, size_t dataLen)
+void Blowfish::encrypt(unsigned char* data, size_t dataLen) const
 {
 	size_t blocksCount = dataLen / 8;
 	for (size_t i = 0; i < blocksCount; i++)
@@ -100,7 +106,7 @@ void Blowfish::encrypt(unsigned char* data, size_t dataLen)
 	}
 }
 
-void Blowfish::decrypt(unsigned char* data, size_t dataLen)
+void Blowfish::decrypt(unsigned char* data, size_t dataLen) const
 {
 	size_t blocksCount = dataLen / 8;
 	for (size_t i = 0; i < blocksCount; i++)

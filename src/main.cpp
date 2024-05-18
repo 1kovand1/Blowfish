@@ -79,7 +79,7 @@ void testEncrypt()
 	unsigned char key[8];
 	unsigned char input[8];
 	f >> setbase(16);
-	cout << setbase(16) << left;
+	cout << setbase(16) << left << uppercase;
 
 	cout << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << "|\n";
 	cout << setfill(' ') << '|' << setw(16) << "key" << '|' << setw(16) << "open text" << '|' << setw(16) << "expected cipher" << '|' << setw(16) << "result" << "|\n";
@@ -114,8 +114,12 @@ void testEncrypt()
 
 void testHash()
 {
+	ifstream file("../test2.txt");
 	std::string str;
-	cin >> str;
-	cout << setbase(16) << uppercase << Blowfish::hash((const uint8_t*)str.c_str(), str.size()) << endl;
+	while (file.peek() != EOF)
+	{
+		getline(file, str);
+		cout << str << "->" << setbase(16) << uppercase << setw(16) << setfill('0') << Blowfish::hash((const uint8_t*)str.c_str(), str.size()) << '\n';
+	}
 }
 
