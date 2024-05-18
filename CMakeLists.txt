@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.5.0)
 project(Blowfish VERSION 0.1.0 LANGUAGES C CXX)
 
-include(CTest)
-enable_testing()
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 add_executable(Blowfish "src/Blowfish.cpp" "src/main.cpp"  "src/initValues.cpp" "inc/initValues.h")
 target_include_directories(Blowfish PRIVATE "inc")

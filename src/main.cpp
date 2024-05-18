@@ -5,8 +5,9 @@
 #include <random>
 #include "Blowfish.h"
 #include <iomanip>
-
+#include <print>
 using namespace std;
+
 
 void testDecrypt();
 void testEncrypt();
@@ -41,13 +42,12 @@ void testDecrypt()
 	f >> setbase(16);
 	cout << setbase(16) << left << uppercase;
 
-	cout << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << "|\n";
+	cout << '|' << setw(16) << setfill('-') << "-" << '-' << setw(16) << setfill('-') << "-" << '-' << setw(16) << setfill('-') << "-" << '-' << setw(16) << setfill('-') << "-" << "|\n";
 	cout << setfill(' ') << '|' << setw(16) << "key" << '|' << setw(16) << "cipher" << '|' << setw(16) << "expected open" << '|' << setw(16) << "result" << "|\n";
-	cout << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << "|\n";
-
 
 	while (!f.eof())
 	{
+		cout << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << "|\n";
 		cout << setfill('0');
 		cout << '|';
 		uint64_t temp;
@@ -68,8 +68,8 @@ void testDecrypt()
 		cout << setw(16) << fromBytes(input) << "|\n";
 
 
-		cout << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << "|\n";
 	}
+	cout << '|' << setw(16) << setfill('-') << "-" << '-' << setw(16) << setfill('-') << "-" << '-' << setw(16) << setfill('-') << "-" << '-' << setw(16) << setfill('-') << "-" << "|\n";
 }
 
 void testEncrypt()
@@ -81,13 +81,13 @@ void testEncrypt()
 	f >> setbase(16);
 	cout << setbase(16) << left << uppercase;
 
-	cout << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << "|\n";
+	cout << '|' << setw(16) << setfill('-') << "-" << '-' << setw(16) << setfill('-') << "-" << '-' << setw(16) << setfill('-') << "-" << '-' << setw(16) << setfill('-') << "-" << "|\n";
 	cout << setfill(' ') << '|' << setw(16) << "key" << '|' << setw(16) << "open text" << '|' << setw(16) << "expected cipher" << '|' << setw(16) << "result" << "|\n";
-	cout << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << "|\n";
 
 
 	while (!f.eof())
 	{
+		cout << '|' << setw(16) << setfill('-') << "-" << '+' << setw(16) << setfill('-') << "-" << '+' << setw(16) << setfill('-') << "-" << '+' << setw(16) << setfill('-') << "-" << "|\n";
 		cout << setfill('0');
 		cout << '|';
 		uint64_t temp;
@@ -107,9 +107,8 @@ void testEncrypt()
 		fish.encrypt(input, 8);
 		cout << setw(16) << fromBytes(input) << "|\n";
 		
-
-		cout << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << '|' << setw(16) << setfill('-') << "-" << "|\n";
 	}
+	cout << '|' << setw(16) << setfill('-') << "-" << '-' << setw(16) << setfill('-') << "-" << '-' << setw(16) << setfill('-') << "-" << '-' << setw(16) << setfill('-') << "-" << "|\n";
 }
 
 void testHash()
@@ -119,7 +118,9 @@ void testHash()
 	while (file.peek() != EOF)
 	{
 		getline(file, str);
-		cout << str << "->" << setbase(16) << uppercase << setw(16) << setfill('0') << Blowfish::hash((const uint8_t*)str.c_str(), str.size()) << '\n';
+		for (unsigned char c : str)
+			print("{:08b}", c);
+		cout << "->" << setbase(16) << uppercase << setw(16) << setfill('0') << Blowfish::hash((const uint8_t*)str.c_str(), str.size()) << '\n';
 	}
 }
 
