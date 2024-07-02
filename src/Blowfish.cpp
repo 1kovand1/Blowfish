@@ -127,7 +127,7 @@ uint64_t Blowfish::hash(uint8_t const* buf, size_t size)
 	uint64_t res = size;
 	if (size % 8 == 0)
 	{
-		for (int i = 0; i < size; i += 8)
+		for (size_t i = 0; i < size; i += 8)
 		{
 			uint8_t bytes[8], in[8];
 			memcpy(in, buf + i, 8);
@@ -140,7 +140,7 @@ uint64_t Blowfish::hash(uint8_t const* buf, size_t size)
 	}
 	else
 	{
-		int i;
+		size_t i;
 		for (i = 0; i + 8 < size; i += 8)
 		{
 			uint8_t bytes[8], in[8];
